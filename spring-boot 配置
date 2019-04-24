@@ -3,3 +3,19 @@ https://blog.csdn.net/qq_40693828/article/details/80440052
 
 #跨域，拦截器，映射配置
 https://blog.csdn.net/hehe1006114318/article/details/80422721
+
+    
+#thymeleaf
+spring.thymeleaf.prefix=classpath:/templates/
+spring.thymeleaf.suffix=.html
+spring.thymeleaf.mode=HTML5
+spring.thymeleaf.encoding=UTF-8
+spring.thymeleaf.servlet.content-type=text/html; charset=utf-8
+spring.thymeleaf.cache=false
+
+#上传文件大小
+spring.servlet.multipart.maxFileSize=100MB
+spring.servlet.multipart.maxRequestSize=100MB
+
+#自定义文件目录
+webUploadPath=C:\\Users\\9527\\Desktop\\publicUpload
