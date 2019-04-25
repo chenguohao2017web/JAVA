@@ -19,3 +19,30 @@ spring.servlet.multipart.maxRequestSize=100MB
 
 #自定义文件目录
 webUploadPath=C:\\Users\\9527\\Desktop\\publicUpload
+
+#集成mybatis
+<!-- mysql -->
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+</dependency>
+<!-- mybatis -->
+<dependency>
+    <groupId>org.mybatis.spring.boot</groupId>
+    <artifactId>mybatis-spring-boot-starter</artifactId>
+    <version>1.3.1</version>
+</dependency>
+
+#mybatis
+spring.datasource.url=jdbc:mysql://localhost:3306/springboot?serverTimezone=GMT
+spring.datasource.username=root
+spring.datasource.password=root
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+@Select("select * from user")
+@Results({
+    @Result(column="username", property="userName"),
+    @Result(column="password", property="passWord")
+})
+List<User> findAll();
+
