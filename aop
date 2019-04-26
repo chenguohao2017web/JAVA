@@ -1,0 +1,24 @@
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-aop</artifactId>
+</dependency>
+
+@Aspect
+@Component
+public class TestAspect {
+	
+	private final static Logger log = LoggerFactory.getLogger(TestAspect.class);
+	
+	@Pointcut("execution(public * com.ssm.spring.controller.*.*(..))")
+	public void log() {}
+	
+	@Before("log()")
+	public void doBefore(JoinPoint joinpoint) {
+		ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
+		HttpServletRequest request = servletRequestAttributes.getRequest();
+		log.info("url={}",request.getRequestURL());
+		log.info("method={}",request.getMethod());
+		log.info("method-class={}",joinpoint.getSignature().getDeclaringTypeName()+"."+joinpoint.getSignature().getName());
+		log.info("args={}", joinpoint.getArgs());
+	}
+}
