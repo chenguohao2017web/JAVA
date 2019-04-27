@@ -37,7 +37,11 @@ webUploadPath=C:\\Users\\9527\\Desktop\\publicUpload
 spring.datasource.url=jdbc:mysql://localhost:3306/springboot?serverTimezone=GMT
 spring.datasource.username=root
 spring.datasource.password=root
-spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver\
+mybatis.mapper-locations=classpath:mapping/*.xml
+mybatis.type-aliases-package=com.ssm.spring.entity
+
+#######参考教程：https://blog.csdn.net/ZZ2713634772/article/details/79458489####################XML配置
 
 @Select("select * from user")
 @Results({
