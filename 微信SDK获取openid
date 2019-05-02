@@ -1,0 +1,58 @@
+<dependency>
+  <groupId>com.github.binarywang</groupId>
+  <artifactId>weixin-java-mp</artifactId>
+  <version>3.3.0</version>
+</dependency>
+
+@Component
+public class WechatMpConfig {
+	@Autowired
+	private WechatAccountConfig accountConfig;
+	
+	@Bean
+	public WxMpService wxMpService() {
+		WxMpService wxMpService = new WxMpServiceImpl();
+		
+		//配置对象
+		WxMpInMemoryConfigStorage wxMpConfigStorage = new WxMpInMemoryConfigStorage();
+		wxMpConfigStorage.setAppId(accountConfig.getMpAppId());
+		wxMpConfigStorage.setSecret(accountConfig.getMpAppsecret());
+		
+		wxMpService.setWxMpConfigStorage(wxMpConfigStorage);
+		return wxMpService;
+	}
+}
+
+@Controller
+@RequestMapping("/wechat")
+public class WechatController {
+	
+	@Autowired
+	private WxMpService wxMpService;
+	
+	private final Logger log = LoggerFactory.getLogger(WechatController.class);
+	
+	@GetMapping("/authorize")
+	public String wechatAuth(@RequestParam("returnUrl") String returnUrl) {
+		String redirectURI = "http://3fgrek.natappfree.cc/wechat/userInfo";
+		String result = wxMpService.oauth2buildAuthorizationUrl(redirectURI, WxConsts.OAuth2Scope.SNSAPI_USERINFO, URLEncoder.encode(returnUrl));
+		log.info("【微信网页授权】获取code result={}",result);
+		return "redirect:" + result;
+	}
+	
+	@GetMapping("/userInfo")
+	public String userInfo(@RequestParam(name="code") String code,
+						 @RequestParam(name="state") String returnUrl) {
+		WxMpOAuth2AccessToken oauth2getAccessToken = new WxMpOAuth2AccessToken();
+		try {
+			oauth2getAccessToken = wxMpService.oauth2getAccessToken(code);
+		} catch (WxErrorException e) {
+			log.error("【微信网页授权】获取token失败，信息={}" + e);
+		}
+		String openId = oauth2getAccessToken.getOpenId();
+		log.info("【微信网页授权】获取openid成功：openid={}",openId);
+		return "redirect:" + returnUrl + "?openId=" + openId;
+	}
+
+	
+}
