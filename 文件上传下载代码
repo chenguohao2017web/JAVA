@@ -9,7 +9,7 @@ pom.xml----------------
 	@Value("${webUploadPath}")
 	String webUploadPath;
 	
-	#文件下载方法
+	#文件上传方法
 	@PostMapping("/upload")
 	public String test(@RequestParam(value="file") MultipartFile file,
 					   HttpServletRequest req,
