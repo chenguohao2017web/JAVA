@@ -50,3 +50,23 @@ mybatis.type-aliases-package=com.ssm.spring.entity
 })
 List<User> findAll();
 
+#mybatis 多对一XML配置：
+<mapper namespace="com.cgh.springboot.dao.MyDao">
+	
+	<resultMap type="com.cgh.springboot.entity.Teacher" id="TeacherMap">
+		<id column="id" property="id"/>
+		<result column="name" property="name"/>
+		<collection property="students" ofType="com.cgh.springboot.entity.Student">
+		<!-- property => 实体类内的多的一方的属性名    ||    ofType => 实体类全包名  -->
+			
+		<id column="sId" property="id"/> <!-- column -> 查询的语句别名   ||  property -> 实体类对应的字段名 -->
+			<result column="sName" property="name"/>
+			<result column="StId" property="teacherId"/>
+		</collection>
+	</resultMap>
+	
+	<select id="getTeachers" resultMap="TeacherMap">
+		select t.id,t.name,s.id as sId,s.name as sName,s.teacher_id as StId
+		from Teacher t join Student s on t.id=s.teacher_id
+	</select>
+</mapper>
