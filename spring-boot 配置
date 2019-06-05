@@ -50,7 +50,7 @@ mybatis.type-aliases-package=com.ssm.spring.entity
 })
 List<User> findAll();
 
-#mybatis 多对一XML配置：
+#mybatis 多对一XML配置： 参考地址：https://blog.csdn.net/qq_33561055/article/details/78861131
 <mapper namespace="com.cgh.springboot.dao.MyDao">
 	
 	<resultMap type="com.cgh.springboot.entity.Teacher" id="TeacherMap">
