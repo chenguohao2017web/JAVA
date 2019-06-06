@@ -70,3 +70,27 @@ List<User> findAll();
 		from Teacher t join Student s on t.id=s.teacher_id
 	</select>
 </mapper>
+
+#mybatis 一对一XML配置
+<mapper namespace="com.ssm.spring.dao.StudentDao">
+
+	<resultMap id="StudentMap" type="com.ssm.spring.entity.Student">
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="teacher_id" property="teacherId"/>
+		<!-- <association property="teacher" column="teacher_id" select="getTeacher"></association> -->
+		<association property="teacher" javaType="com.ssm.spring.entity.Teacher">
+			<id column="teacher_id" property="id"/>
+			<result column="tName" property="name"/>
+		</association>
+	</resultMap>
+
+	<select id="getStudents" resultMap="StudentMap">
+		select s.id,s.name,t.name as tName from Student s join Teacher t on s.teacher_id = t.id
+	</select>
+	
+	<!-- <select id="getTeacher" parameterType="Integer" resultType="com.ssm.spring.entity.Teacher">
+		select * from Teacher where id = #{id}
+	</select> -->
+	
+</mapper>
